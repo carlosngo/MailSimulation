@@ -1,5 +1,5 @@
 package Model;
 
-public class Date {
+public class DateTime {
     
 }

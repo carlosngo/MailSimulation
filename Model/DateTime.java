@@ -40,11 +40,16 @@ public class DateTime {
      * its date is before or after a specific date
      */
     public boolean isBefore (DateTime d) {
-        if(d.year <= this.year)
-			if(d.month <= this.month)
-				if(d.day < this.day)
-					return true;
-		
-		return false;
+        if (d.year < this.year) {
+	    return true;
+	} else if (d.year == this.year) {
+	    if (d.month < this.month) {
+	        return true;
+	    } else if (d.month == this.month) {
+		if (d.day < this.day)
+	            return true;
+	    }
+	}		
+	return false;
     }
 }

@@ -13,7 +13,7 @@ public class PostOffice extends Location{
 
 	}
 
-	public ArrayList<Mail> generateMail(){
+	public void generateMail(){
 
 	}
 }

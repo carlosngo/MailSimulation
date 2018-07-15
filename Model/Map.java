@@ -15,6 +15,6 @@ public class Map{
 	}
 
 	public PostOffice getPostOffice(){
-        //find post office from list of locations then reutrn it
+
 	}
 }

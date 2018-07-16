@@ -15,6 +15,9 @@ public class Mail implements Comparable<Mail> {
     public Location getDestination() {
         return destination;
     }
+    public PostOffice getOrigin() {
+        return origin;
+    }
     
     /**
      *  Just use the getDistance() method of the Location class and return it.

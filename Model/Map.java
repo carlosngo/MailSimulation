@@ -9,6 +9,10 @@ public class Map{
 		this.region = region;
 		locations = new ArrayList<Location>();
 	}
+	
+	public String getRegion() {
+		return region;
+	}
 
 	public void addLocation(Location l){
 		locations.add(l);

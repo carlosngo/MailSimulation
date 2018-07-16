@@ -20,12 +20,14 @@ public class Mail implements Comparable<Mail> {
      *  Just use the getDistance() method of the Location class and return it.
      */
     public int getShortestPath() {
-        
+        return destination.getDistance(origin);
     }
     
     @Override
     public boolean equals(Object obj) {
-        
+        Mail m = (Mail) obj;
+        return this.recipient == m.recipient && this.origin == m.origin 
+           && this.destination == m.destination && this.dateTime == m.dateTime;
     }
     
     /**

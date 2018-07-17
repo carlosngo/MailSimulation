@@ -15,10 +15,6 @@ public class Location {
         connections = new ArrayList<>();
     }
 
-    public int getShortestPath(Location l) {
-        //calculate for the distance then return it
-    }
-
     public String getRegion() {
         return region;
     }

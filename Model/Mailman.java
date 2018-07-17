@@ -24,7 +24,7 @@ public class Mailman {
      * reads the CSV file. add a map for every region.
      */
     public void readMaps(File csv){
-	    Scanner input = new Scanner(csv);
+	Scanner input = new Scanner(csv);
     	while(input.hasNext()){
     		String region;
     		Location location1, location2;
@@ -34,9 +34,10 @@ public class Mailman {
 	    	location2 = new Location(temp[2], region);
     		double distance = Double.parseDouble(temp[3]);
     		for(int i=0;i<maps.size() && !found;i++){
-    			if(region.equals(maps.get(i).getRegion())
+    			if(region.equals(maps.get(i).getRegion()){
 	    			found = true;
     				int index = i;
+			}
 	    	}
 	    	if(found){
 		    	if(!maps.get(index).getLocations().contains(location1))
@@ -55,9 +56,9 @@ public class Mailman {
 	    		m.addLocation(location1);
 	    		m.addLocation(location2);
 	    		addMap(m);
-	    	}
-	    }
-	    input.close();
+		}
+	}
+	input.close();
     }
     
     /**

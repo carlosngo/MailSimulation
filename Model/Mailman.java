@@ -32,7 +32,8 @@ public class Mailman {
      * post office. add each mail to bag.
      */
     public void fetchMail() {
-        
+        for(Mail m : currentStation.pushMail())
+            bag.add(m);
     }
     
     /**
@@ -41,7 +42,26 @@ public class Mailman {
      * sorted, and then sorts it (any sort u prefer).
      */
     public void sortMail() {
-        
+        for(Mail m : bag)
+            if(m.getOrigin().equals(currentStation.getRegion())
+               sorted.add(m);
+        for(int i = 1; i < sorted.size(); i++) {
+            Mail m = sorted.remove(i);
+            int j = i;
+            while(j >= 0) {
+                if(m.compareTo(sorted.get(j - 1)) > 0) {
+                    if(j - 1 == 0)
+                        sorted.add(j, m);
+                    else
+                        j--;
+                }
+                else if(m.compareTo(sorted.get(j - 1)) < 0)
+                    sorted.add(j - 1, sort);
+                else
+                    sorted.add(j, m);
+                }
+            }
+        }
     }
     
     /**

@@ -114,6 +114,7 @@ public class Mailman {
     }
     
     public void displayRoute() {
-        
+        for(Mail m : sorted)
+		System.out.println(m.getDestination().getName());
     }
 }

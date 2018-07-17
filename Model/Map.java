@@ -1,24 +1,31 @@
 package Model;
 
-public class Map{
+import java.util.*;
+import java.io.*;
 
-	private String region;
-	private ArrayList<Location> locations;
+public class Map {
 
-	public Map(String region){
-		this.region = region;
-		locations = new ArrayList<Location>();
-	}
-	
-	public String getRegion() {
-		return region;
-	}
+    private String region;
+    private ArrayList<Location> locations;
 
-	public void addLocation(Location l){
-		locations.add(l);
-	}
+    public Map(String region) {
+        this.region = region;
+        locations = new ArrayList<Location>();
+    }
 
-	public PostOffice getPostOffice(){
+    public String getRegion() {
+        return region;
+    }
 
-	}
+    public ArrayList<Location> getLocations() {
+        return locations;
+    }
+    
+    public void addLocation(Location l) {
+        locations.add(l);
+    }
+
+    public PostOffice getPostOffice() {
+
+    }
 }

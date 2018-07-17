@@ -23,8 +23,48 @@ public class Mailman {
     /**
      * reads the CSV file. add a map for every region.
      */
-    public void readMaps(File csv) {
-        
+    public void readMaps(File csv){
+	Scanner input = new Scanner(csv);
+    	while(input.hasNext()){
+    		String region;
+    		Location location1, location2;
+		int index;
+    		String[] temp = input.nextLine().split(",");
+    		region = temp[0];
+    		location1 = new Location(temp[1], region);
+	    	location2 = new Location(temp[2], region);
+    		double distance = Double.parseDouble(temp[3]);
+    		for(int i = 0; i < maps.size() && !found; i++){
+    			if(region.equals(maps.get(i).getRegion()){
+	    			found = true;
+    				index = i;
+			}
+	    	}
+	    	if(found){
+		    	Map map = maps.get(index);
+	    		int index1 = map.getLocations().indexOf(location1);
+			if (index1 < 0)
+				map.getLocations().add(location1);
+			else
+				location1 = map.getLocations().get(index1);
+	    		int index2 = map.getLocations().indexOf(location2);
+			if (index2 < 0)
+				map.getLocations().add(location2);
+			else
+				location2 = map.getLocations().get(index2);
+			location1.addConnection(new Edge(location2, distance));
+			location2.addConnection(new Edge(location1, distance));
+	    	}
+	    	else{
+	    		Map m = new Map(region);
+	    		location1.addConnection(location2, distance);
+	    		location2.addConnection(location1, distance);
+	    		m.addLocation(location1);
+	    		m.addLocation(location2);
+	    		addMap(m);
+		}
+	}
+	input.close();
     }
     
     /**

@@ -5,7 +5,7 @@ import java.io.*;
 public class Mailman {
     String name;
     private ArrayList<Map> maps;
-    private int currentMapIndex;
+    private PostOffice currentStation;
     private ArrayList<Mail> bag;
     private ArrayList<Mail> sorted;
     
@@ -49,12 +49,9 @@ public class Mailman {
      * to be called after displaying the required output.
      */
     public void deliverMail() {
-        for(int i = 0; i < bag.size(); i++) {
-            if(bag.get(i).getOrigin().getRegion().equals(Map.get(currentMapIndex).getRegion()))
-                bag.remove(i);
-            if(sorted.get(i).getOrigin().getRegion().equals(Map.get(currentMapIndex).getRegion()))
-                sorted.remove(i);
-        }
+        for (Mail m : sorted)
+            bag.remove(m);
+        sorted = new ArrayList<>();
     }
     
     public void displaySortedMails() {

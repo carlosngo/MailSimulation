@@ -38,5 +38,13 @@ public class Mail implements Comparable<Mail> {
     @Override
     public int compareTo (Mail mail) {
         return getShortestPath() - mail.getShortestPath();
-    }    
+    }
+    
+    @Override
+    public String toString() {
+        return "Recipient: " + recipient + "\nPost Office: " + origin.getName()
+                + "\nLocation: " + destination.getName() + "\nDate/Time: " + dateTime.getMonth()
+                + "/" + dateTime.getDay() + "/" + dateTime.getYear() + " [" + dateTime.getHour()
+                + ":" + dateTime.getMinute() + "]";
+    }
 }

@@ -6,6 +6,25 @@ BEFORE JULY 17
 region to the sorted list (not yet sorted)
 
 BEFORE JULY 23
+[5] Map.java
+- getPostOffice() method
+
+[6] PostOffice.java
+- addMail() method
+- pushMail() method *it's like getMails()*
+- getShortestPath() method *SIMPLE VERSION*
+
+getShortestPath() pseudocode
+since every location is connected to the PostOffice in Milestone 1, we can just check the edges of the postoffice.
+getShortestPath(Location l) {
+int min = Double.MAX_VALUE;
+for each Edge in PostOffice
+  if end of Edge is equal to l
+    if (weight /* distance */ of Edge < min)
+      min = weight of Edge
+}
+return min
+}
 
 That's it for now. If u hab questions let's discuss it in GC <3 Let's do our best! :D
 

@@ -11,15 +11,19 @@ public class PostOffice extends Location {
         super(name, region);
         mails = new ArrayList<>();
     }
-
-    public ArrayList<Mail> pushMail() {
-
+    
+    public int getShortestPath(Location l) {
+        
     }
 
-    public void generateMail() {
+    public void addMail(Mail m) {
 
     }
     
+    public ArrayList<Mail> pushMail() {
+        
+    }
+
     public boolean equals(Object obj) {
         PostOffice l = (PostOffice) obj;
         return name.equals(l.name) && region.equals(l.region);

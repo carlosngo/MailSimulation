@@ -12,9 +12,18 @@ public class Mail implements Comparable<Mail> {
         this.dateTime = dateTime;
     }
     
+    public String getRecipient() {
+        return recipient;
+    }
+    
+    public DateTime getDateTime() {
+        return dateTime;
+    }
+    
     public Location getDestination() {
         return destination;
     }
+    
     public PostOffice getOrigin() {
         return origin;
     }
@@ -23,14 +32,14 @@ public class Mail implements Comparable<Mail> {
      *  Just use the getDistance() method of the Location class and return it.
      */
     public int getShortestPath() {
-        return destination.getDistance(origin);
+        return origin.getShortestPath(destination);
     }
     
     @Override
     public boolean equals(Object obj) {
         Mail m = (Mail) obj;
-        return this.recipient == m.recipient && this.origin == m.origin 
-           && this.destination == m.destination && this.dateTime == m.dateTime;
+        return recipient.equals(m.recipient) && origin.equals(m.origin) 
+           && destination.equals(m.destination) && dateTime.equals(m.dateTime);
     }
     
     /**

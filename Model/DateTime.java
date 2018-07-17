@@ -60,4 +60,9 @@ public class DateTime {
 	}		
 	return false;
     }
+	
+    public boolean equals (Object obj) {
+	DateTime dt = (DateTime) obj;    
+	return year == dt.year && month == dt.month && day == dt.day && hour == dt.hour && minute == dt.minute;
+    }
 }

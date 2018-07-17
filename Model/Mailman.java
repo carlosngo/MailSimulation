@@ -28,26 +28,32 @@ public class Mailman {
     	while(input.hasNext()){
     		String region;
     		Location location1, location2;
-    		String[] temp = input.next().split(",");
+		int index;
+    		String[] temp = input.nextLine().split(",");
     		region = temp[0];
     		location1 = new Location(temp[1], region);
 	    	location2 = new Location(temp[2], region);
     		double distance = Double.parseDouble(temp[3]);
-    		for(int i=0;i<maps.size() && !found;i++){
+    		for(int i = 0; i < maps.size() && !found; i++){
     			if(region.equals(maps.get(i).getRegion()){
 	    			found = true;
-    				int index = i;
+    				index = i;
 			}
 	    	}
 	    	if(found){
-		    	if(!maps.get(index).getLocations().contains(location1))
-    				maps.get(index).addLocation(location1);
-	    		int index1 = maps.get(index).getLocations().indexOf(location1);
-		    	if(!maps.get(index).getLocations().contains(location2))
-	    			maps.get(index).addLocation(location2);
-	    		int index2 = maps.get(index).getLocations().indexOf(location2);
-	    		maps.get(index).getLocations().get(location1).addConnection(new Edge(location2, distance));
-	    		maps.get(index).getLocations().get(location2).addConnection(new Edge(location1, distance));
+		    	Map map = maps.get(index);
+	    		int index1 = map.getLocations().indexOf(location1);
+			if (index1 < 0)
+				map.getLocations().add(location1);
+			else
+				location1 = map.getLocations().get(index1);
+	    		int index2 = map.getLocations().indexOf(location2);
+			if (index2 < 0)
+				map.getLocations().add(location2);
+			else
+				location2 = map.getLocations().get(index2);
+			location1.addConnection(new Edge(location2, distance));
+			location2.addConnection(new Edge(location1, distance));
 	    	}
 	    	else{
 	    		Map m = new Map(region);
@@ -114,7 +120,6 @@ public class Mailman {
     }
     
     public void displayRoute() {
-        for(Mail m : sorted)
-		System.out.println(m.getDestination().getName());
+        
     }
 }

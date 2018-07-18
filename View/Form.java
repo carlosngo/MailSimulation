@@ -102,7 +102,7 @@ public class Form extends JFrame implements ActionListener{
     }
     
     public String getMailInfo(int year, int mon, int day, int hour, int min){
-        mail = new Mail(recipientInput.getText(), destinationInput.getText(), new Date(year,mon,day,hour,min));
+        mail = new Mail(recipientInput.getText(), destinationInput.getText(), new DateTime(year,mon,day,hour,min));
         return mail;
     }
     

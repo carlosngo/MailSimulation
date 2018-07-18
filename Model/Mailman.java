@@ -68,6 +68,14 @@ public class Mailman {
                 region = temp[0];
                 location1 = new Location(temp[1], region);
                 location2 = new Location(temp[2], region);
+                String[] split1 = location1.getName().trim().split("\\s+");
+                String[] split2 = location2.getName().trim().split("\\s+");
+                if (split1.length > 1) 
+                    if (split1[split1.length - 2].equals("Post") && split1[split1.length - 1].equals("Office")) 
+                        location1 = (PostOffice) location1;
+                if (split2.length > 1) 
+                    if (split2[split2.length - 2].equals("Post") && split2[split2.length - 1].equals("Office")) 
+                            location2 = (PostOffice) location2;
                 double distance = Double.parseDouble(temp[3]);
                 for (int i = 0; i < maps.size() && !found; i++) {
                     if (region.equals(maps.get(i).getRegion())) {

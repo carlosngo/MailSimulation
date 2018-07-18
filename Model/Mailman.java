@@ -25,6 +25,10 @@ public class Mailman {
         return name;    
     }
     
+    public PostOffice getCurrentStation() {
+        return currentStation;    
+    }
+    
     public ArrayList<Map> getMaps() {
         return maps;
     }

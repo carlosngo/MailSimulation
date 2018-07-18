@@ -21,6 +21,10 @@ public class Mailman {
         sorted = new ArrayList<>();
     }
     
+    public String getName() {
+        return name;    
+    }
+    
     public ArrayList<Map> getMaps() {
         return maps;
     }

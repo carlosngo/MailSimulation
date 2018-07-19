@@ -73,7 +73,10 @@ public class PostOfficeGUI extends JFrame implements ActionListener{
         }
         else if(e.getActionCommand().equals("View Mails")){
             MailsList ml = new MailsList();
-        }   
+        }
+        else if(e.getActionCommand().equals("Post Office")){
+            MailsListOffice ml = new MailsList();
+        } 
     }
     
     public static void main(String[] args){

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mailmansimulation;
+package View;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -73,7 +73,10 @@ public class PostOfficeGUI extends JFrame implements ActionListener{
         }
         else if(e.getActionCommand().equals("View Mails")){
             MailsList ml = new MailsList();
-        }   
+        }
+        else if(e.getActionCommand().equals("Post Office")){
+            MailsListOffice ml = new MailsList();
+        } 
     }
     
     public static void main(String[] args){

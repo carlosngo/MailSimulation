@@ -52,7 +52,7 @@ public class Form extends JFrame implements ActionListener{
 //        for (int i = 1; i < choices.length; i++) 
 //            choices[i] = man.getCurrentMap().getLocations().get(i).getName();
 //        
-        destinationInput = new JComboBox()//choices);
+        destinationInput = new JComboBox();//choices);
         destinationInput.setFont(new Font("Abril Fatface", Font.PLAIN, 18));
         p2.add(destinationInput);
         

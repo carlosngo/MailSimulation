@@ -3,33 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
-
-import Model.*;
+package mailmansimulation;
 
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 
-public class MailsList extends JFrame implements ActionListener{
+public class MailsListOffice extends JFrame implements ActionListener{
     
-    ArrayList<Mail> mails;
+    Mailman m;
+    PostOffice p;
     JButton done = new JButton();
     
-    public MailsList(ArrayList<Mail> mails){
-        this.mails = mails;
-        initMailsList();
+    public MailsListOffice(){
+        m = new Mailman("messenger boy");
+        initMailsListOffice();
     }
     
-    public void initMailsList(){
+    public void initMailsListOffice(){
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p,BoxLayout.Y_AXIS));
         
         JLabel mail = new JLabel();
-        for(int i=0;i<mails.size();i++){
-            mail.setText(mails.get(i).toString());
+        for(int i=0;i<p.getMails().size();i++){
+            mail.setText(p.getMails().get(i).toString());
             p.add(mail);
             p.add(Box.createRigidArea(new Dimension(0,10)));
         }

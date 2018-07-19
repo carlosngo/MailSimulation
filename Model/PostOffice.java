@@ -12,6 +12,10 @@ public class PostOffice extends Location {
         mails = new ArrayList<>();
     }
     
+    public ArrayList<Mail> getMails() {
+        return mails;    
+    }
+    
     public int getShortestPath(Location l) {
         
     }

@@ -29,6 +29,13 @@ public class Mailman {
         return currentStation;
     }
 
+    public Map getCurrentMap() {
+        for (Map m : maps) 
+            if (m.getRegion().equals(currentStation.getRegion()))
+                return m;
+        return null;
+    }
+    
     public ArrayList<Map> getMaps() {
         return maps;
     }
@@ -62,25 +69,10 @@ public class Mailman {
                 Location location1, location2;
                 int index = -1;
                 boolean found = false;
-                boolean isPostOffice1 = false;
-                boolean isPostOffice2 = false;
                 String[] temp = input.split(",");
                 region = temp[0];
                 location1 = new Location(temp[1], region);
                 location2 = new Location(temp[2], region);
-                String[] split1 = location1.getName().trim().split("\\s+");
-                String[] split2 = location2.getName().trim().split("\\s+");
-                if (split1.length > 1) {
-                    if (split1[split1.length - 2].equals("Post") && split1[split1.length - 1].equals("Office")) {
-                        isPostOffice1 = true;
-                    }
-                }
-
-                if (split2.length > 1) {
-                    if (split2[split2.length - 2].equals("Post") && split2[split2.length - 1].equals("Office")) {
-                        isPostOffice2 = true;
-                    }
-                }
 
                 double distance = Double.parseDouble(temp[3]);
                 for (int i = 0; i < maps.size() && !found; i++) {
@@ -89,46 +81,28 @@ public class Mailman {
                         index = i;
                     }
                 }
+                Map map;
                 if (found) {
-                    Map map = maps.get(index);
-                    int index1 = map.getLocations().indexOf(location1);
-                    if (index1 < 0) {
-                        if (isPostOffice1) {
-                            map.getLocations().add(new PostOffice(location1.getName(), location1.getRegion()));
-                        } else {
-                            map.getLocations().add(location1);
-                        }
-                    } else {
-                        location1 = map.getLocations().get(index1);
-                    }
-                    int index2 = map.getLocations().indexOf(location2);
-                    if (index2 < 0) {
-                        if (isPostOffice2) {
-                            map.getLocations().add(new PostOffice(location2.getName(), location2.getRegion()));
-                        } else {
-                            map.getLocations().add(location2);
-                        }
-                    } else {
-                        location2 = map.getLocations().get(index2);
-                    }
-                    location1.addConnection(new Edge(location2, distance));
-                    location2.addConnection(new Edge(location1, distance));
+                    map = maps.get(index);
                 } else {
-                    Map m = new Map(region);
-                    location1.addConnection(new Edge(location2, distance));
-                    location2.addConnection(new Edge(location1, distance));
-                    if (isPostOffice1) {
-                        m.addLocation(new PostOffice(location1.getName(), location1.getRegion()));
-                    } else {
-                        m.addLocation(location1);
-                    }
-                    if (isPostOffice1) {
-                        m.addLocation(new PostOffice(location1.getName(), location1.getRegion()));
-                    } else {
-                        m.addLocation(location1);
-                    }
-                    addMap(m);
+                    map = new Map(region);
                 }
+                int index1 = map.getLocations().indexOf(location1);
+                if (index1 < 0) {
+                    map.getLocations().add(location1);
+                } else {
+                    location1 = map.getLocations().get(index1);
+                }
+                int index2 = map.getLocations().indexOf(location2);
+                if (index2 < 0) {
+                    map.getLocations().add(location2);
+                } else {
+                    location2 = map.getLocations().get(index2);
+                }
+                location1.addConnection(new Edge(location2, distance));
+                location2.addConnection(new Edge(location1, distance));
+                if (!found)
+                    addMap(map);
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found.");
@@ -155,13 +129,7 @@ public class Mailman {
                 sorted.add(m);
             }
         }
-        for (int i = 0; i < sorted.size() - 1; i++) {
-            for (int j = 0; j < sorted.size() - i - 1; j++) {
-                if (sorted.get(j).compareTo(sorted.get(j + 1)) > 0) {
-                    Collections.swap(sorted, j, j + 1);
-                }
-            }
-        }
+        Collections.sort(sorted);
     }
 
     /**
@@ -175,10 +143,12 @@ public class Mailman {
         sorted = new ArrayList<>();
     }
 
-    public void displaySortedMails() {
+    public String displaySortedMails() {
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < sorted.size(); i++) {
-            System.out.println(sorted.get(i).toString());
+            sb.append(sorted.get(i).toString() + "\n");
         }
+        return sb.toString();
     }
 
     public void displayRoute() {

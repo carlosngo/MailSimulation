@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mailmansimulation;
+package View;
 
+import Model.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
@@ -12,32 +13,32 @@ import java.awt.event.*;
 
 public class Form extends JFrame implements ActionListener{
     
-    private Mail mail;
+    private Mailman man;
     private JButton back, done;
-    private JFrame f;
     private JTextField recipientInput;
-    private JTextField destinationInput;
+    private JComboBox destinationInput; // the list of locations in the region
     private JComboBox mon, day, yr, hr, min;
     
-    public Form(){
+    public Form(Mailman man){
+        super("Mailman Simulation");
+        this.man = man;
         initForm();
     }
     
     public void initForm(){
-        f = new JFrame();
-        
         JPanel p = new JPanel();
+        p.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         p.setLayout(new BoxLayout(p,BoxLayout.Y_AXIS));
         
-        JLabel title = new JLabel("Form");
-        title.setFont(new Font("Abril Fatface", Font.PLAIN, 18));
+        JLabel title = new JLabel("MAIL INFORMATION");
+        title.setFont(new Font("Abril Fatface", Font.PLAIN, 36));
         p.add(title);
         
         JPanel p1 = new JPanel();
         p1.setLayout(new FlowLayout());
         JLabel recipient = new JLabel("Recipient:");
         p1.add(recipient);
-        recipientInput = new JTextField();
+        recipientInput = new JTextField("", 20);
         recipientInput.setFont(new Font("Abril Fatface", Font.PLAIN, 18));
         p1.add(recipientInput);
         
@@ -46,7 +47,12 @@ public class Form extends JFrame implements ActionListener{
         p2.setLayout(new FlowLayout());
         JLabel destination = new JLabel("Destination:");
         p2.add(destination);
-        destinationInput = new JTextField();
+//        String[] choices = new String[man.getCurrentMap().getLocations().size()];
+//        choices[0] = "Select a location...";
+//        for (int i = 1; i < choices.length; i++) 
+//            choices[i] = man.getCurrentMap().getLocations().get(i).getName();
+//        
+        destinationInput = new JComboBox()//choices);
         destinationInput.setFont(new Font("Abril Fatface", Font.PLAIN, 18));
         p2.add(destinationInput);
         
@@ -54,16 +60,21 @@ public class Form extends JFrame implements ActionListener{
         p3.setLayout(new FlowLayout());
         JLabel date = new JLabel("Date (MM/DD/YY):");
         p3.add(date);
-        Integer[] months = {1,2,3,4,5,6,7,8,9,10,11,12};
+        String[] months = {"Month", "January", "February", "March", "April", 
+                           "May", "June", "July", "August", "September",
+                           "October", "November", "December"};
         mon = new JComboBox(months);
         p3.add(mon);
-        Integer[] days = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
+        String[] days = new String[32];
+        days[0] = "Day";
+        for (int i = 1; i <= 31; i++)
+            days[i] = Integer.toString(i);
         day = new JComboBox(days);
         p3.add(day);
-        Integer[] years = null;
-        Integer dummy = 2017;
-        for(int i=0;i<30;i++)
-            years[i] = dummy++;
+        String[] years = new String[101];
+        years[0] = "Year";
+        for (int i = 1; i <= 100; i++)
+            years[i] = Integer.toString(1999 + i);
         yr = new JComboBox(years);
         p3.add(yr);
         
@@ -71,10 +82,13 @@ public class Form extends JFrame implements ActionListener{
         p4.setLayout(new FlowLayout());
         JLabel time = new JLabel("Time (HH/MM):");
         p4.add(date);
-        Integer[] hours = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24};
+        String[] hours = new String[25];
+        hours[0] = "Hour";
+        for (int i = 0; i <= 23; i++)
+            hours[i + 1] = Integer.toString(i);
         hr = new JComboBox(hours);
         p4.add(hr);
-        Integer[] mins = null;
+        Integer[] mins = new  Integer[60];
         Integer dummyMin = 0;
         for(int i=0;i<60;i++)
             mins[i] = dummyMin++;
@@ -95,19 +109,16 @@ public class Form extends JFrame implements ActionListener{
         p5.add(done);
         
         p.add(p1); p.add(p2); p.add(p3); p.add(p4); p.add(p5);
-        f.add(p); // add panel to frame
-        f.pack(); //set the compnents to fit in the frame
-        f.setVisible(true);
-        f.setDefaultCloseOperation(f.EXIT_ON_CLOSE);
+        add(p); // add panel to frame
+        pack(); //set the compnents to fit in the frame
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocation(500, 100);
     }
-    
-    public String getMailInfo(int year, int mon, int day, int hour, int min){
-        mail = new Mail(recipientInput.getText(), destinationInput.getText(), new DateTime(year,mon,day,hour,min));
-        return mail;
-    }
-    
+        
     public void actionPerformed (ActionEvent e){
         if(e.getActionCommand().equals("Done")){
+            String recipient = recipientInput.getText();
             JComboBox y = (JComboBox) yr;
             int year = (int) yr.getSelectedItem();
             JComboBox m = (JComboBox) mon;
@@ -118,8 +129,12 @@ public class Form extends JFrame implements ActionListener{
             int hour = (int) hr.getSelectedItem();
             JComboBox minuteBox = (JComboBox) min;
             int minute = (int) min.getSelectedItem();
-            getMailInfo(year,mon,day,hour,minute);
-            f.dispose();
+            dispose();
+//            man.getCurrentPostOffice().addMail(new Mail(recipient,));
         }  
     } 
+    
+    public static void main(String[] args) {
+        Form f = new Form(new Mailman("Carlos"));
+    }
 }

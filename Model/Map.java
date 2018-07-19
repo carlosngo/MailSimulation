@@ -11,6 +11,7 @@ public class Map {
     public Map(String region) {
         this.region = region;
         locations = new ArrayList<Location>();
+        locations.add(new PostOffice(region + " Post Office", region);
     }
 
     public String getRegion() {

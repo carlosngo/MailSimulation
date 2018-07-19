@@ -27,6 +27,7 @@ public class Map {
     }
 
     public PostOffice getPostOffice() {
-
+        PostOffice p = (PostOffice) getLocations().get(0);
+        return p;
     }
 }

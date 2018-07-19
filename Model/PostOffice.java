@@ -17,10 +17,11 @@ public class PostOffice extends Location {
     }
     
     public double getShortestPath(Location l) {
+        double min = Double.MAX_VALUE;
         for(Edge edge : l.getConnections()) {
-            double min = l.getConnections().get(0).getDistance();
-            if(edge.getDistance() < min)
-                min = edge.getDistance();
+            if(l.equals(edge.getEnd()))
+                if(edge.getDistance() < min)
+                    min = edge.getDistance();
         }
         
         return min;

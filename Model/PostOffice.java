@@ -16,16 +16,22 @@ public class PostOffice extends Location {
         return mails;    
     }
     
-    public int getShortestPath(Location l) {
+    public double getShortestPath(Location l) {
+        for(Edge edge : l.getConnections()) {
+            double min = l.getConnections().get(0).getDistance();
+            if(edge.getDistance() < min)
+                min = edge.getDistance();
+        }
         
+        return min;
     }
 
     public void addMail(Mail m) {
-
+        mails.add(m);
     }
     
     public ArrayList<Mail> pushMail() {
-        
+        return mails;
     }
 
     public boolean equals(Object obj) {

@@ -39,12 +39,12 @@ public class Delivery extends JPanel {
         ActionListener action = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 repaint();
-//                if (imageX < getWidth() - image.getWidth())
+                if (imageX < getWidth())// - image.getWidth())
                 imageX++;
             }
         };
         setPreferredSize(new Dimension(500, 500));
-        Timer timer = new Timer(1, action);
+        Timer timer = new Timer(0, action);
         timer.start();
     }
 
@@ -69,12 +69,20 @@ public class Delivery extends JPanel {
     public static void main(String[] args) {
         JFrame f = new JFrame("Animation");
         Delivery d = new Delivery(new Mailman("Carlos"));
-//        JScrollPane pane = new JScrollPane(d, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        f.setContentPane(d);
-        f.setSize(2000, 800);
+        JScrollPane pane = new JScrollPane(d, VERTICAL_SCROLLBAR_NEVER, HORIZONTAL_SCROLLBAR_ALWAYS);
+        pane.setPreferredSize(new Dimension(2000, 500));
+        FrameConstraints frameConstraints = new FrameConstraints();
+        frameConstraints.gridx = 0;
+        frameConstraints.gridy = 1;
+        frameConstraints.weighty = 1;
+        f.add(pane, frameConstraints);
+        f.setSize(1000, 500);
         f.setVisible(true);
         f.setResizable(false);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+    static class FrameConstraints {
+        int gridx, gridy, weighty;
     }
 }

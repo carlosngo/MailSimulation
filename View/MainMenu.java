@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mailmansimulation;
+package View;
 
-//package View;
-
+import Model.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
@@ -14,39 +13,42 @@ import java.awt.event.*;
 
 public class MainMenu extends JFrame implements ActionListener{
     
-    //ActionEvent e;
-    String chosenCity;
     private JComboBox choices;
     private JButton proceed, exit, select;
-    private JFrame f;
+    Mailman man;
     
-    public MainMenu(){
+    public MainMenu(Mailman man){
+        super("Mail Simulator");
+        this.man = man;
         initMainMenu();
     }
     
     public void initMainMenu(){
-        f = new JFrame();
         
         //create and set panel to box layout
         JPanel p = new JPanel();
+        p.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         p.setLayout(new BoxLayout(p,BoxLayout.Y_AXIS));
         
         //title
-        JLabel title = new JLabel("Mailman Simulation");
+        JLabel title = new JLabel("MAIN MENU");
         title.setFont(new Font("Abril Fatface", Font.BOLD, 48));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(title);
         p.add(Box.createRigidArea(new Dimension(0,25))); // add space
         
         //main menu
-        JLabel mainmenu = new JLabel("Main Menu");
-        mainmenu.setFont(new Font("Abril Fatface", Font.PLAIN, 30));
+        JLabel mainmenu = new JLabel("Where do you want to start?");
+        mainmenu.setFont(new Font("Abril Fatface", Font.PLAIN, 20));
         mainmenu.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(mainmenu);
         p.add(Box.createRigidArea(new Dimension(0,10))); // add space
         
         //combo box
-        String[] cities = {"Where do you want to start?"};
+        String[] cities = new String[man.getMaps().size() + 1];
+        cities[0] = "Select a region...";
+        for (int i = 0; i < man.getMaps().size(); i++)
+            cities[i + 1] = man.getMaps().get(i).getRegion();
         choices = new JComboBox(cities);
         choices.setFont(new Font("Abril Fatface", Font.PLAIN, 20));
         choices.addActionListener(this);
@@ -69,72 +71,37 @@ public class MainMenu extends JFrame implements ActionListener{
         exit.addActionListener (this);
         p.add(exit);
         p.add(Box.createRigidArea(new Dimension(0,10))); // add space
-        /*
-        // select file button
-        select = new JButton("Select File");
-        select.setAlignmentX(Component.CENTER_ALIGNMENT);
-        select.setFont(new Font("Abril Fatface", Font.PLAIN, 20));
-        select.addActionListener (this);
-        p.add(select);
-        p.add(Box.createRigidArea(new Dimension(0,10))); // add space
-        */
-        f.add(p); // add panel to frame
-        f.pack(); //set the compnents to fit in the frame
-        f.setVisible(true);
-        f.setDefaultCloseOperation(f.EXIT_ON_CLOSE);
+       
+        add(p); // add panel to frame
+        pack(); //set the compnents to fit in the frame
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocation(500, 100);
     }
     
     //public void enableButtons (ActionEvent e){
     //}
     
     public void actionPerformed (ActionEvent e){
-        if(e.getSource() == choices){
-            JComboBox cb = (JComboBox) e.getSource();
-            String chosenCity = (String) cb.getSelectedItem();
-            if(!(chosenCity.equals("Where do you want to start?"))){
-                f.setVisible(false);
-                PostOfficeGUI am = new PostOfficeGUI();
-            }
+        if(e.getSource() == choices) {
+            if(choices.getSelectedIndex() != 0)
+                proceed.setEnabled(true);
+            else
+                proceed.setEnabled(false);
         }
         else if (e.getActionCommand ().equals ("Exit")){
-            f.dispose();
+            int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?");
+            if (choice == 0)
+                dispose();
         }
         else if(e.getActionCommand ().equals ("Continue")){
-            f.setVisible(false);
-            JComboBox cb = (JComboBox) e.getSource();
-            chosenCity = (String) cb.getSelectedItem();
-            PostOfficeGUI am = new PostOfficeGUI();
+            man.setCurrentStation(man.getMaps().get(choices.getSelectedIndex() - 1).getPostOffice());
+            PostOfficeMenu pm = new PostOfficeMenu(man);
+            dispose();
         }
-        /*else if(e.getActionCommand ().equals ("Select File")){
-            //open select file GUI
-        }*/
-    }
-    /*
-    public void changedUpdate (DocumentEvent e){ 
-        // Gives notification that an attribute or set of attributes changed.
-		
-    }
-	
-    public void insertUpdate (DocumentEvent e){ 
-        // Gives notification that there was an insert into the document.
-		//btnSave.setEnabled (true);
-    }
-	
-    public void removeUpdate (DocumentEvent e){ 
-        // Gives notification that a portion of the document has been removed.
-		//btnSave.setEnabled (true);
-    }
-    */
-    
-    public String getCity(){
-        return chosenCity; 
     }
     
-    public JFrame getFrame(){
-        return f;
-    }
-    
-    public static void main(String[] args){
-        MainMenu mm = new MainMenu();
+    public static void main(String[] args) {
+        MainMenu mm = new MainMenu(new Mailman("Carlos"));
     }
 }

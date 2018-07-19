@@ -3,28 +3,38 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//package View;
+package View;
 
+import Model.*;
 import javax.swing.*;
 import javax.swing.filechooser.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 
-public class StartScreen implements ActionListener {
+public class StartScreen extends JFrame implements ActionListener {
+    MainMenu m;
     JButton loadMap, start;
     JLabel choice;
+    Mailman man;
     
     public StartScreen() {
+        super("Mail Simulator");
         initStartScreen();
     }
     
     public void initStartScreen() {
-        JFrame f = new JFrame("Mail Simulator");
         JPanel content = new JPanel();
-        f.setContentPane(content);
+        content.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+        setContentPane(content);
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
+        content.add(Box.createRigidArea(new Dimension(0, 80)));
+        String[] split = JOptionPane.showInputDialog(null, "My name is:").trim().split("\\s+");
+        while (split[0].equals("")) 
+            split = JOptionPane.showInputDialog(null, "My name is:").trim().split("\\s+");
         
-        JLabel lb1 = new JLabel ("Welcome to Mail Simulator!");
+        man = new Mailman(split[0]);
+        JLabel lb1 = new JLabel ("Welcome to Mail Simulator, " + man.getName() + "!");
         lb1.setFont(new Font("Abril Fatface", Font.BOLD, 24));
         lb1.setAlignmentX(Component.CENTER_ALIGNMENT);
         content.add(lb1);
@@ -57,12 +67,10 @@ public class StartScreen implements ActionListener {
         content.add(start);
         content.add(Box.createRigidArea(new Dimension(0, 40)));
         
-        
-        f.setSize(500, 500);
-        //f.pack();
-        f.setVisible(true);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+        setSize(500, 500);
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocation(500, 100);
     }
     
     public void actionPerformed(ActionEvent e) {
@@ -73,10 +81,17 @@ public class StartScreen implements ActionListener {
             chooser.setFileFilter(filter);
             int returnVal = chooser.showOpenDialog(null);
             if(returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = chooser.getSelectedFile();
                 choice.setText("Load successful! You chose the file: " +
-                        chooser.getSelectedFile().getName());
+                        file.getName());
                 start.setEnabled(true);
+                try {
+                    man.readMaps(file);
+                } catch (IOException ex) { }
             }
+        } else {
+            m = new MainMenu(man);
+            dispose();
         }
     }
     

@@ -37,7 +37,8 @@ public class Mail implements Comparable<Mail> {
      * Just use the getDistance() method of the Location class and return it.
      */
     public int getShortestPath() {
-        return origin.getShortestPath(destination);
+        int path = (int) origin.getShortestPath(destination);
+        return path;
     }
 
     @Override

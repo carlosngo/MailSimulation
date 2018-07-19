@@ -11,14 +11,15 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 
 public class MailsList extends JFrame implements ActionListener{
     
-    Mailman m;
+    ArrayList<Mail> mails;
     JButton done = new JButton();
     
-    public MailsList(){
-        m = new Mailman("messenger boy");
+    public MailsList(ArrayList<Mail> mails){
+        this.mails = mails;
         initMailsList();
     }
     
@@ -27,8 +28,8 @@ public class MailsList extends JFrame implements ActionListener{
         p.setLayout(new BoxLayout(p,BoxLayout.Y_AXIS));
         
         JLabel mail = new JLabel();
-        for(int i=0;i<m.getBag().size();i++){
-            mail.setText(m.getBag().get(i).toString());
+        for(int i=0;i<mails.size();i++){
+            mail.setText(mails.get(i).toString());
             p.add(mail);
             p.add(Box.createRigidArea(new Dimension(0,10)));
         }

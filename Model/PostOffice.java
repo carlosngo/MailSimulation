@@ -32,9 +32,4 @@ public class PostOffice extends Location {
     public ArrayList<Mail> pushMail() {
         return mails;
     }
-
-    public boolean equals(Object obj) {
-        PostOffice l = (PostOffice) obj;
-        return name.equals(l.name) && region.equals(l.region);
-    }
 }

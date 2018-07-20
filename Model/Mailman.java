@@ -62,7 +62,7 @@ public class Mailman {
     public void readMaps(File csv) throws IOException {
         try {
             String input;
-            BufferedReader br = new BufferedReader(new FileReader(csv));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(csv),"ISO-8859-1"));
             br.readLine();
             while ((input = br.readLine()) != null) {
                 String region;

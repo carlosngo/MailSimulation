@@ -46,14 +46,6 @@ public class PostOfficeMenu extends JFrame implements ActionListener{
         p.add(postoffice);
         p.add(Box.createRigidArea(new Dimension(0,20))); // add space
         
-        // view mails button
-        viewMails = new JButton("View Mail");
-        viewMails.setAlignmentX(Component.CENTER_ALIGNMENT);
-        viewMails.setFont(new Font("Abril Fatface", Font.PLAIN, 20));
-        viewMails.addActionListener (this);
-        p.add(viewMails);
-        p.add(Box.createRigidArea(new Dimension(0,20))); // add space
-        
         viewMails = new JButton("View Bag");
         viewMails.setAlignmentX(Component.CENTER_ALIGNMENT);
         viewMails.setFont(new Font("Abril Fatface", Font.PLAIN, 20));
@@ -87,10 +79,7 @@ public class PostOfficeMenu extends JFrame implements ActionListener{
             f = new Form(man);
             dispose();
         }
-        else if(e.getActionCommand().equals("View Mail")){
-            ml = new MailsList(this, man.getCurrentStation().getMails());
-            setVisible(false);
-        } else {  
+        else {
             ml = new MailsList(this, man.getBag());
             setVisible(false);
         }

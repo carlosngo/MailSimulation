@@ -30,7 +30,6 @@ public class MailsList extends JFrame implements ActionListener{
         JPanel p = new JPanel();
         p.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         p.setLayout(new BoxLayout(p,BoxLayout.Y_AXIS));
-        p.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel title = new JLabel("LIST OF MAILS");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setFont(new Font("Abril Fatface", Font.PLAIN, 36));
@@ -43,22 +42,20 @@ public class MailsList extends JFrame implements ActionListener{
             reci = new JLabel("", CENTER);
             dest = new JLabel("", CENTER);
             dateTime = new JLabel("", CENTER);
+            
             reci.setMinimumSize(new Dimension(120, 40));
             reci.setMaximumSize(new Dimension(120, 40));
             reci.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-            reci.setAlignmentX(p.LEFT_ALIGNMENT);
             reci.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             
             dest.setMinimumSize(new Dimension(440, 40));
             dest.setMaximumSize(new Dimension(440, 40));
-            dest.setFont(new Font("Times New Roman", Font.PLAIN, 18));            
-            dest.setAlignmentX(p.CENTER_ALIGNMENT);
+            dest.setFont(new Font("Times New Roman", Font.PLAIN, 18));
             dest.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             
             dateTime.setMinimumSize(new Dimension(220, 40));
             dateTime.setMaximumSize(new Dimension(220, 40));
             dateTime.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-            dateTime.setAlignmentX(p.RIGHT_ALIGNMENT);
             dateTime.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             
             mail.setLayout(new BoxLayout(mail, BoxLayout.X_AXIS));
@@ -74,10 +71,9 @@ public class MailsList extends JFrame implements ActionListener{
             
             
             mail.add(reci);
-            //mail.add(Box.createRigidArea(new Dimension(10, 0)));
             mail.add(dest);
-            //mail.add(Box.createRigidArea(new Dimension(10, 0)));
             mail.add(dateTime);    
+            mail.setAlignmentX(Component.CENTER_ALIGNMENT);
             p.add(mail);
         }
        
@@ -87,6 +83,7 @@ public class MailsList extends JFrame implements ActionListener{
        done.addActionListener (this);
        p.add(Box.createRigidArea(new Dimension(0,10))); 
        p.add(done);
+       p.setAlignmentX(Component.CENTER_ALIGNMENT);
        JScrollPane sp = new JScrollPane(p, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
        
        add(sp);

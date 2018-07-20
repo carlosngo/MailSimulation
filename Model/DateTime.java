@@ -65,4 +65,17 @@ public class DateTime {
 	DateTime dt = (DateTime) obj;    
 	return year == dt.year && month == dt.month && day == dt.day && hour == dt.hour && minute == dt.minute;
     }
+	
+    public String toString() {
+	String hr, min;
+	if (hour < 10)
+	   hr = "0" + hour;
+	else
+	   hr = hour + "";
+	if (minute < 10)
+	   min = "0" + minute;
+	else
+	   min = minute + "";
+        return getMonth(month) + " " + getDay() + ", " + getYear() + " " + hr + ": " + min;
+    }
 }

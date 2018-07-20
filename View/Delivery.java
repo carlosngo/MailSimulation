@@ -6,13 +6,15 @@
 package View;
 
 import Model.*;
-//import java.util.*;
+import java.util.HashSet;
 import java.io.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.*;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import javax.imageio.*;
 import static javax.swing.ScrollPaneConstants.*;
 
@@ -20,69 +22,107 @@ import static javax.swing.ScrollPaneConstants.*;
  *
  * @author Carlos
  */
-public class Delivery extends JPanel {
+public class Delivery extends JFrame {
 
-    private int imageX, imageY;
-    private BufferedImage image;
     private Mailman man;
-
+    private MainMenu mm;
+    private PostOfficeMenu po;
+    private AnimationPanel animation;
+    private JScrollPane animationPane;
+    private MailPanel mails;
+    private int border;
+    private Timer timer;
+    
     public Delivery(Mailman man) {
         this.man = man;
-        this.setBackground(Color.WHITE);
-        imageX = 0;
-        try {
-            image = ImageIO.read(new File("C:\\Users\\Carlos\\Documents\\NetBeansProjects\\MailSimulation\\src\\View\\Truck.jpg"));
-        } catch (IOException e) {
-
+        animation = new AnimationPanel(man);
+        HashSet<Integer> set = new HashSet<>();
+        initDelivery();
+        pack();
+        for (JLabel lbl : animation.getDestinations()) {
+            set.add(lbl.getX());
+            border = lbl.getX() + lbl.getWidth();
         }
-        image = resize(image, 300, 300);
+        
         ActionListener action = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                repaint();
-                if (imageX < getWidth())// - image.getWidth())
-                imageX++;
+                animation.repaint();
+                if (set.contains(animation.getImageX())) {
+                    if (!man.getSorted().isEmpty())
+                        man.deliverMail();
+                    initDelivery();
+                    try {
+                        TimeUnit.SECONDS.sleep(2);
+                    } catch (InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+                if (animation.getImageX() < border)
+                    animation.setImageX(animation.getImageX() + 1);
+                else {
+                    if (man.getBag().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Delivery successful!\n"
+                                + "There is no remaining mail in " + man.getName() + "'s bag.\n"
+                                + "Returning to main menu.");
+                        mm = new MainMenu(man);
+                    } else {
+                        man.setCurrentStation(getEarliestMail().getOrigin());
+                        JOptionPane.showMessageDialog(null, "Delivery successful!\n"
+                                + "There are mails left in " + man.getName() + "'s bag.\n"
+                                + "Proceeding to the next Post Station.");
+                        man.sortMail();
+                        po = new PostOfficeMenu(man);
+                    }
+                    dispose();
+                    timer.stop();
+                }
+                    
             }
         };
-        setPreferredSize(new Dimension(500, 500));
-        Timer timer = new Timer(0, action);
+        timer = new Timer(0, action);
         timer.start();
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(image, imageX, 0, null); // see javadoc for more info on the parameters          
-
-    }
-
-    public static BufferedImage resize(BufferedImage img, int newW, int newH) {
-        Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-        BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
-
-        Graphics2D g2d = dimg.createGraphics();
-        g2d.drawImage(tmp, 0, 0, null);
-        g2d.dispose();
-
-        return dimg;
-    }
-
-    public static void main(String[] args) {
-        JFrame f = new JFrame("Animation");
-        Delivery d = new Delivery(new Mailman("Carlos"));
-        JScrollPane pane = new JScrollPane(d, VERTICAL_SCROLLBAR_NEVER, HORIZONTAL_SCROLLBAR_ALWAYS);
-        pane.setPreferredSize(new Dimension(2000, 500));
-        FrameConstraints frameConstraints = new FrameConstraints();
-        frameConstraints.gridx = 0;
-        frameConstraints.gridy = 1;
-        frameConstraints.weighty = 1;
-        f.add(pane, frameConstraints);
-        f.setSize(1000, 500);
-        f.setVisible(true);
-        f.setResizable(false);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
     }
     
-    static class FrameConstraints {
-        int gridx, gridy, weighty;
+    public void initDelivery() {
+        JPanel content = new JPanel();
+        content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
+//        animation = new AnimationPanel(man);
+        mails = new MailPanel(man.getSorted());
+        JScrollPane animationPane = new JScrollPane(animation, VERTICAL_SCROLLBAR_NEVER, HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane mailPane = new JScrollPane(mails, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_NEVER);
+
+        content.add(animationPane);
+        content.add(mailPane);
+        setContentPane(content);
+//        pack();
+        setVisible(true);
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        
+    }
+    
+    public Mail getEarliestMail() {
+        Mail earliest = man.getBag().get(0);
+        for (Mail m : man.getBag()) 
+            if (m.getDateTime().isBefore(earliest.getDateTime()))
+                earliest = m;
+        return earliest;
+    }
+    
+    public static void main(String[] args) {
+        Mailman m = new Mailman("Carlos");
+        m.setCurrentStation(new PostOffice("Manila Post Office", "Manila"));
+        ArrayList<Mail> list = m.getSorted();
+        ArrayList<Mail> bag = m.getBag();
+        bag.add(new Mail("Halo", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(2018,2,28,4,5)));
+        list.add(new Mail("Johanna", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(2018,2,28,4,5)));
+        list.add(new Mail("Miggy", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
+        list.add(new Mail("Stanley", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
+        list.add(new Mail("Martin", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
+        list.add(new Mail("Jeremy", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
+        list.add(new Mail("Melody", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
+        Delivery d = new Delivery(m);
     }
 }

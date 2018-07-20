@@ -83,11 +83,15 @@ public class StartScreen extends JFrame implements ActionListener {
             int returnVal = chooser.showOpenDialog(null);
             if(returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = chooser.getSelectedFile();
-                choice.setText("Load successful! You chose the file: " +
-                        file.getName());
-                start.setEnabled(true);
                 try {
-                    man.readMaps(file);
+                    if (man.readMaps(file)) {
+                        start.setEnabled(true);
+                        choice.setText("Load successful! You chose the file: " +
+                            file.getName());
+                    } else {
+                        start.setEnabled(false);
+                        choice.setText("Load failed! File could not be found.");
+                    }
                 } catch (IOException ex) { }
             }
         } else {

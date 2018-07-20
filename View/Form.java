@@ -183,21 +183,28 @@ public class Form extends JFrame implements ActionListener {
         }
         if (e.getActionCommand().equals("Done")) {
             String recipient = recipientInput.getText();
-            Location location = new Location((String) destinationInput.getSelectedItem(), man.getCurrentMap().getRegion());
+            String[] split = recipient.trim().split("\\s+");
+            recipient = split[0];
+            Location location = null;
             for (Map m : man.getMaps())
                 for (Location l : m.getLocations())
-                    if (l.equals(location))
+                    if (l.getName().equals((String)destinationInput.getSelectedItem()))
                         location = l;
+            PostOffice office = new PostOffice(location.getRegion() + " Post Office", location.getRegion());
+            for (Edge edge : location.getConnections())
+                if (edge.getEnd().equals(office))
+                    office = (PostOffice)edge.getEnd();
             int year = Integer.parseInt((String) yr.getSelectedItem());
             int month = mon.getSelectedIndex();
             int day = Integer.parseInt((String) this.day.getSelectedItem());
             int hour = Integer.parseInt((String) hr.getSelectedItem());
             int minute = Integer.parseInt((String) min.getSelectedItem());
             DateTime dt = new DateTime(year, month, day, hour, minute);
-            Mail m = new Mail(recipient, man.getCurrentStation(), location, dt);
+            Mail m = new Mail(recipient, office, location, dt);
 //            System.out.println(m.toString());
             man.getCurrentStation().addMail(m);
             man.getBag().add(m);
+            man.sortMail();
             PostOfficeMenu po = new PostOfficeMenu(man);
             dispose();
         } else if (e.getActionCommand().equals("Back")) {

@@ -54,7 +54,13 @@ public class Mail implements Comparable<Mail> {
      */
     @Override
     public int compareTo(Mail mail) {
-        return getShortestPath() - mail.getShortestPath();
+        double difference = getShortestPath() - mail.getShortestPath();
+        if (difference < 0)
+            return -1;
+        else if (difference == 0)
+            return 0;
+        else
+            return 1;
     }
 
     @Override

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View;
 
 import Model.*;
@@ -58,6 +53,8 @@ public class PostOfficeMenu extends JFrame implements ActionListener{
         deliver.setAlignmentX(Component.CENTER_ALIGNMENT);
         deliver.setFont(new Font("Abril Fatface", Font.PLAIN, 20));
         deliver.addActionListener (this);
+        if (man.getSorted().isEmpty())
+            deliver.setEnabled(false);
         p.add(deliver);
         p.add(Box.createRigidArea(new Dimension(0,20))); // add space
         
@@ -71,7 +68,6 @@ public class PostOfficeMenu extends JFrame implements ActionListener{
     
     public void actionPerformed (ActionEvent e){
         if(e.getActionCommand().equals("Deliver")){
-            man.sortMail();
             d = new Delivery(man);
             dispose();
         }

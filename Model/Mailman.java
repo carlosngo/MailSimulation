@@ -141,11 +141,9 @@ public class Mailman {
     /**
      * removes all mail from the current region. to be called after displaying
      * the required output.
-     */
-    public void deliverMail() {
-        for (Mail m : sorted) {
-            bag.remove(m);
-        }
+     */   
+    public void deliverMail(Mail m) {
+        bag.remove(m);
         sorted = new ArrayList<>();
     }
 

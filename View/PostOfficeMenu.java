@@ -73,7 +73,8 @@ public class PostOfficeMenu extends JFrame implements ActionListener{
         pack(); //set the compnents to fit in the frame
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocation(500, 100);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
     
     public void actionPerformed (ActionEvent e){
@@ -87,10 +88,10 @@ public class PostOfficeMenu extends JFrame implements ActionListener{
             dispose();
         }
         else if(e.getActionCommand().equals("View Mail")){
-            ml = new MailsList(man.getCurrentStation().getMails());
+            ml = new MailsList(this, man.getCurrentStation().getMails());
             setVisible(false);
         } else {  
-            ml = new MailsList(man.getBag());
+            ml = new MailsList(this, man.getBag());
             setVisible(false);
         }
     }   

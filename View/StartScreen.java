@@ -26,7 +26,6 @@ public class StartScreen extends JFrame implements ActionListener {
     public void initStartScreen() {
         JPanel content = new JPanel();
         content.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
-        setContentPane(content);
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         content.add(Box.createRigidArea(new Dimension(0, 80)));
         String[] split = JOptionPane.showInputDialog(null, "My name is:").trim().split("\\s+");
@@ -67,10 +66,12 @@ public class StartScreen extends JFrame implements ActionListener {
         content.add(start);
         content.add(Box.createRigidArea(new Dimension(0, 40)));
         
+        add(content);
         setSize(500, 500);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocation(500, 100);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
     
     public void actionPerformed(ActionEvent e) {

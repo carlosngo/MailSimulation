@@ -59,15 +59,18 @@ public class Form extends JFrame implements ActionListener {
         p1.add(recipientInput);
 
         JPanel p2 = new JPanel();
-        p2.setLayout(new FlowLayout());
+        p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
         JLabel destination = new JLabel("Destination:");
         p2.add(destination);
-        String[] choices = new String[man.getCurrentMap().getLocations().size()];
+        String[] choices = new String[man.getNoOfLocations() - 1 * (man.getMaps().size() - 1)];
         choices[0] = "Select a location...";
-        for (int i = 1; i < choices.length; i++) {
-            choices[i] = man.getCurrentMap().getLocations().get(i).getName();
-        }
-
+        int index = 1;
+        for (Map m : man.getMaps())
+            for (Location l : m.getLocations()) 
+                if (l instanceof PostOffice)
+                    ;
+                else
+                    choices[index++] = l.getName();
         destinationInput = new JComboBox(choices);
         destinationInput.setFont(new Font("Abril Fatface", Font.PLAIN, 18));
         destinationInput.addActionListener(this);
@@ -144,7 +147,8 @@ public class Form extends JFrame implements ActionListener {
         pack(); //set the compnents to fit in the frame
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocation(25, 100);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -179,15 +183,19 @@ public class Form extends JFrame implements ActionListener {
         }
         if (e.getActionCommand().equals("Done")) {
             String recipient = recipientInput.getText();
-            Location dest = man.getCurrentMap().getLocations().get(destinationInput.getSelectedIndex());
+            Location location = new Location((String) destinationInput.getSelectedItem(), man.getCurrentMap().getRegion());
+            for (Map m : man.getMaps())
+                for (Location l : m.getLocations())
+                    if (l.equals(location))
+                        location = l;
             int year = Integer.parseInt((String) yr.getSelectedItem());
             int month = mon.getSelectedIndex();
             int day = Integer.parseInt((String) this.day.getSelectedItem());
             int hour = Integer.parseInt((String) hr.getSelectedItem());
             int minute = Integer.parseInt((String) min.getSelectedItem());
             DateTime dt = new DateTime(year, month, day, hour, minute);
-            Mail m = new Mail(recipient, man.getCurrentStation(), dest, dt);
-            System.out.println(m.toString());
+            Mail m = new Mail(recipient, man.getCurrentStation(), location, dt);
+//            System.out.println(m.toString());
             man.getCurrentStation().addMail(m);
             man.getBag().add(m);
             PostOfficeMenu po = new PostOfficeMenu(man);

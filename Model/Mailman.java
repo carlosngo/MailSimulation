@@ -47,7 +47,13 @@ public class Mailman {
     public ArrayList<Mail> getSorted() {
         return sorted;
     }
-
+    
+    public int getNoOfLocations() {
+        int count = 0;
+        for (Map m : maps) 
+            count += m.getLocations().size();
+        return count;
+    }
     public void setCurrentStation(PostOffice p) {
         currentStation = p;
     }

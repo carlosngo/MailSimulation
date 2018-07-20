@@ -76,7 +76,8 @@ public class MainMenu extends JFrame implements ActionListener{
         pack(); //set the compnents to fit in the frame
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocation(500, 100);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
     
     //public void enableButtons (ActionEvent e){

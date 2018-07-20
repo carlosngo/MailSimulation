@@ -65,7 +65,7 @@ public class Mailman {
     /**
      * reads the CSV file. add a map for every region.
      */
-    public void readMaps(File csv) throws IOException {
+    public boolean readMaps(File csv) throws IOException {
         try {
             String input;
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(csv),"ISO-8859-1"));
@@ -110,8 +110,9 @@ public class Mailman {
                 if (!found)
                     addMap(map);
             }
+            return true;
         } catch (FileNotFoundException e) {
-            System.out.println("File not found.");
+            return false;
         }
     }
 
@@ -130,11 +131,10 @@ public class Mailman {
      * ArrayList variable sorted, and then sorts it (any sort u prefer).
      */
     public void sortMail() {
-        for (Mail m : bag) {
-            if (m.getOrigin().getName().equals(currentStation.getName())) {
-                sorted.add(m);
-            }
-        }
+        for (Mail m : bag) 
+            if (m.getOrigin().equals(currentStation)) 
+                if (!sorted.contains(m))
+                    sorted.add(m);
         Collections.sort(sorted);
     }
 
@@ -152,9 +152,5 @@ public class Mailman {
             sb.append(sorted.get(i).toString() + "\n");
         }
         return sb.toString();
-    }
-
-    public void displayRoute() {
-
     }
 }

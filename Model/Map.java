@@ -11,7 +11,7 @@ public class Map {
     public Map(String region) {
         this.region = region;
         locations = new ArrayList<Location>();
-        locations.add(new PostOffice(region + " Post Office", region);
+        locations.add(new PostOffice(region + " Post Office", region));
     }
 
     public String getRegion() {
@@ -27,7 +27,6 @@ public class Map {
     }
 
     public PostOffice getPostOffice() {
-        PostOffice p = (PostOffice) getLocations().get(0);
-        return p;
+        return (PostOffice) getLocations().get(0);
     }
 }

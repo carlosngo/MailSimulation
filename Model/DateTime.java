@@ -76,6 +76,6 @@ public class DateTime {
 	   min = "0" + minute;
 	else
 	   min = minute + "";
-        return getMonth(month) + " " + getDay() + ", " + getYear() + " " + hr + ": " + min;
+        return getMonth(month) + " " + getDay() + ", " + getYear() + " " + hr + ":" + min;
     }
 }

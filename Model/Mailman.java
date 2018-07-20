@@ -131,7 +131,7 @@ public class Mailman {
      */
     public void sortMail() {
         for (Mail m : bag) {
-            if (m.getOrigin().equals(currentStation.getRegion())) {
+            if (m.getOrigin().getName().equals(currentStation.getName())) {
                 sorted.add(m);
             }
         }

@@ -89,7 +89,7 @@ public class Mailman {
                     else
                         location2 = new Location(temp[2], region);
                     distance = Double.parseDouble(temp[3]);
-                } catch (NumberFormatException e) {
+                } catch (IndexOutOfBoundsException | NumberFormatException e) {
                     return false;
                 }
                 for (int i = 0; i < maps.size() && !found; i++) {

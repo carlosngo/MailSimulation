@@ -80,9 +80,4 @@ public class PostOfficeMenu extends JFrame implements ActionListener{
             setVisible(false);
         }
     }   
-    
-    public static void main(String[] args){
-        PostOfficeMenu am = new PostOfficeMenu(new Mailman("Carlos"));
-    }
-
 }

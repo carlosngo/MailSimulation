@@ -103,7 +103,6 @@ public class AnimationPanel extends JPanel {
         imageX = x;
     }
     
-    
     public static BufferedImage resize(BufferedImage img, int newW, int newH) {
         Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
         BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
@@ -114,26 +113,4 @@ public class AnimationPanel extends JPanel {
 
         return dimg;
     }
-
-    public static void main(String[] args) {
-        JFrame f = new JFrame("Animation");
-        Mailman m = new Mailman("Carlos");
-        m.setCurrentStation(new PostOffice("Manila Post Office", "Manila"));
-        ArrayList<Mail> list = m.getSorted();
-        list.add(new Mail("Johanna", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(2018,2,28,4,5)));
-        list.add(new Mail("Miggy", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
-        list.add(new Mail("Stanley", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
-        list.add(new Mail("Martin", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
-        list.add(new Mail("Jeremy", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
-        list.add(new Mail("Melody", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
-        AnimationPanel d = new AnimationPanel(m);
-        JScrollPane pane = new JScrollPane(d, VERTICAL_SCROLLBAR_NEVER, HORIZONTAL_SCROLLBAR_ALWAYS);
-//        pane.setPreferredSize(new Dimension(2000, 500));
-        f.setContentPane(pane);
-        f.pack();
-        f.setVisible(true);
-        f.setResizable(false);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
 }

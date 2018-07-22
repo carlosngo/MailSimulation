@@ -66,21 +66,32 @@ public class Mailman {
      * reads the CSV file. add a map for every region.
      */
     public boolean readMaps(File csv) throws IOException {
+        maps = new ArrayList<>();
         try {
             String input;
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(csv),"ISO-8859-1"));
             br.readLine();
             while ((input = br.readLine()) != null) {
                 String region;
+                double distance;
                 Location location1, location2;
                 int index = -1;
                 boolean found = false;
-                String[] temp = input.split(",");
-                region = temp[0];
-                location1 = new Location(temp[1], region);
-                location2 = new Location(temp[2], region);
-
-                double distance = Double.parseDouble(temp[3]);
+                String[] temp = input.split(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)");
+                try {
+                    region = temp[0];
+                    if (!temp[1].isEmpty() && temp[1].charAt(0) == '"')
+                        location1 = new Location(temp[1].substring(1, temp[1].length() - 1), region);
+                    else
+                        location1 = new Location(temp[1], region);
+                    if (!temp[2].isEmpty() && temp[2].charAt(0) == '"')
+                        location2 = new Location(temp[2].substring(1, temp[2].length() - 1), region);
+                    else
+                        location2 = new Location(temp[2], region);
+                    distance = Double.parseDouble(temp[3]);
+                } catch (IndexOutOfBoundsException | NumberFormatException e) {
+                    return false;
+                }
                 for (int i = 0; i < maps.size() && !found; i++) {
                     if (region.equals(maps.get(i).getRegion())) {
                         found = true;
@@ -144,13 +155,5 @@ public class Mailman {
      */   
     public void deliverMail() {
         bag.remove(sorted.remove(0));
-    }
-
-    public String displaySortedMails() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < sorted.size(); i++) {
-            sb.append(sorted.get(i).toString() + "\n");
-        }
-        return sb.toString();
     }
 }

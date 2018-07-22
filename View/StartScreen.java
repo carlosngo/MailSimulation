@@ -99,8 +99,4 @@ public class StartScreen extends JFrame implements ActionListener {
             dispose();
         }
     }
-    
-    public static void main(String[] args){
-        StartScreen sc = new StartScreen();
-    }
 }

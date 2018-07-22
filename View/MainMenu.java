@@ -101,8 +101,4 @@ public class MainMenu extends JFrame implements ActionListener{
             dispose();
         }
     }
-    
-    public static void main(String[] args) {
-        MainMenu mm = new MainMenu(new Mailman("Carlos"));
-    }
 }

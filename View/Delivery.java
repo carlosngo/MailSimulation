@@ -81,7 +81,8 @@ public class Delivery extends JFrame {
         };
         timer = new Timer(0, action);
         timer.start();
-        
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
     
     public void initDelivery() {
@@ -100,7 +101,6 @@ public class Delivery extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        
     }
     
     public Mail getEarliestMail() {
@@ -109,20 +109,5 @@ public class Delivery extends JFrame {
             if (m.getDateTime().isBefore(earliest.getDateTime()))
                 earliest = m;
         return earliest;
-    }
-    
-    public static void main(String[] args) {
-        Mailman m = new Mailman("Carlos");
-        m.setCurrentStation(new PostOffice("Manila Post Office", "Manila"));
-        ArrayList<Mail> list = m.getSorted();
-        ArrayList<Mail> bag = m.getBag();
-        bag.add(new Mail("Halo", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(2018,2,28,4,5)));
-        list.add(new Mail("Johanna", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(2018,2,28,4,5)));
-        list.add(new Mail("Miggy", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
-        list.add(new Mail("Stanley", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
-        list.add(new Mail("Martin", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
-        list.add(new Mail("Jeremy", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
-        list.add(new Mail("Melody", new PostOffice("Manila Post Office", "Manila"), new Location("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Manila"), new DateTime(1,2,3,4,5)));
-        Delivery d = new Delivery(m);
     }
 }

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import javax.imageio.*;
 import static javax.swing.ScrollPaneConstants.*;
+import java.net.*;
 
 /**
  *
@@ -36,7 +37,15 @@ public class AnimationPanel extends JPanel {
         this.setBackground(Color.WHITE);
         imageX = 1;
         try {
-            image = ImageIO.read(new File("C:\\Users\\Carlos\\Documents\\NetBeansProjects\\MailSimulation\\src\\View\\Truck.jpg"));
+            //image = ImageIO.read(new File("/Users/user/Desktop/milestone1 2/src/View/Truck.jpg"));
+            image = ImageIO.read(new File("truck.jpg"));
+            /*
+            calls from the internet
+            URL url = new URL("https://raw.githubusercontent.com/carlosngo/MailSimulation/master/View/Truck.jpg?token=AlMs6xmHOJ1S__08U1jIi9JA-U-gIgJJks5bXcWhwA%3D%3D");
+            image = ImageIO.read(url);
+            File file = new File("truck.jpg");
+            ImageIO.write(image, "jpg", file);
+            */
         } catch (IOException e) {
 
         }

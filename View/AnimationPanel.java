@@ -38,7 +38,7 @@ public class AnimationPanel extends JPanel {
         imageX = 1;
         try {
             //image = ImageIO.read(new File("/Users/user/Desktop/milestone1 2/src/View/Truck.jpg"));
-            image = ImageIO.read(new File("truck.jpg"));
+            image = ImageIO.read(new File("Truck.jpg"));
             /*
             calls from the internet
             URL url = new URL("https://raw.githubusercontent.com/carlosngo/MailSimulation/master/View/Truck.jpg?token=AlMs6xmHOJ1S__08U1jIi9JA-U-gIgJJks5bXcWhwA%3D%3D");

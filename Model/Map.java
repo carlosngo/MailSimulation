@@ -22,8 +22,13 @@ public class Map {
         return locations;
     }
     
-    // apply dijkstra's algorithm here.
-    public double getShortestPath(Location loc1, Location loc2) {
+    // returns distances of shortest paths from loc1 to all locations. 
+    public double[] getShortestPaths(Location loc1) {
+        
+    }
+    
+    // for each vertex, set the return value of getShortestPaths() to its array of distances
+    public void calculateRoutes() {
         
     }
     

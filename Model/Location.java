@@ -8,6 +8,7 @@ public class Location {
     String name;
     String region;
     ArrayList<Edge> connections;
+    double[] distances;
 
     public Location(String name, String region) {
         this.name = name;
@@ -27,8 +28,16 @@ public class Location {
         return connections;
     }
     
+    public void setDistances(double[] distances) {
+        this.distances = distances;   
+    }
+    
     public void addConnection(Edge e) {
         connections.add(e);
+    }
+    
+    public double getShortestPath(int locationIndex) {
+        return distances[locationIndex];
     }
 
     public boolean equals(Object obj) {

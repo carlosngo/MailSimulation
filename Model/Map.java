@@ -22,6 +22,11 @@ public class Map {
         return locations;
     }
     
+    // apply dijkstra's algorithm here.
+    public double getShortestPath(Location loc1, Location loc2) {
+        
+    }
+    
     public void addLocation(Location l) {
         locations.add(l);
     }

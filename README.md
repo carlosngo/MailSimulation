@@ -15,10 +15,14 @@ TODO
 
 [1] Implement Djikstra's Algorithm in Map method getShortestPath()
 
-[2] Add currentLocation to mailman
+[2] Add an array of distances to all other locations in the Location class, and a setter for the array.
 
-[3] Modify mailman's sortMail() algorithm
+[3] During the implementation of Dijkstra's algorithm, pass the distance array as a parameter for the setter in [2].
 
-[4] Modify Mail method compareTo() algorithm
+[4] Add currentLocation and another list of mails of the current region to mailman
 
-[5] Implement GUI for the roads
+[5] Modify mailman's sortMail() algorithm; sort mails manually by searching the region mails the shortest path, then add it to the sorted list, then set currentLocation to the destination of the delivered mail. Rinse and repeat. 
+
+[6] Implement GUI for the roads
+
+[7] Ask Ma'am what will happen if there is no way to get to the next destination.

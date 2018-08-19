@@ -15,15 +15,6 @@ public class PostOffice extends Location {
     public ArrayList<Mail> getMails() {
         return mails;    
     }
-    
-    public double getShortestPath(Location l) {
-        double min = Double.MAX_VALUE;
-        for(Edge edge : getConnections()) 
-            if(l.equals(edge.getEnd()))
-                if(edge.getDistance() < min)
-                    min = edge.getDistance();
-        return min;
-    }
 
     public void addMail(Mail m) {
         mails.add(m);

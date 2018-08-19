@@ -3,7 +3,7 @@ package Model;
 import java.util.*;
 import java.io.*;
 
-public class Mail implements Comparable<Mail> {
+public class Mail {
 
     private String recipient;
     private PostOffice origin;
@@ -36,7 +36,7 @@ public class Mail implements Comparable<Mail> {
     /**
      * Just use the getDistance() method of the Location class and return it.
      */
-    public double getShortestPath() {
+    public Route getShortestPath() {
         return origin.getShortestPath(destination);
     }
 
@@ -52,16 +52,6 @@ public class Mail implements Comparable<Mail> {
      * than the other mail. If this mail's distance is equal to the other mail,
      * return 0. Otherwise, this function will return a number greater than 0.
      */
-    @Override
-    public int compareTo(Mail mail) {
-        double difference = getShortestPath() - mail.getShortestPath();
-        if (difference < 0)
-            return -1;
-        else if (difference == 0)
-            return 0;
-        else
-            return 1;
-    }
 
     @Override
     public String toString() {

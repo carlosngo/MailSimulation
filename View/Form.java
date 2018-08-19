@@ -202,9 +202,8 @@ public class Form extends JFrame implements ActionListener {
             DateTime dt = new DateTime(year, month, day, hour, minute);
             Mail m = new Mail(recipient, office, location, dt);
 //            System.out.println(m.toString());
-            man.getCurrentStation().addMail(m);
-            man.getBag().add(m);
-            man.sortMail();
+            man.getCurrentMap().getPostOffice().addMail(m);
+            man.addMail(m);
             PostOfficeMenu po = new PostOfficeMenu(man);
             dispose();
         } else if (e.getActionCommand().equals("Back")) {

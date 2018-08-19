@@ -4,12 +4,12 @@ import java.util.*;
 import java.io.*;
 
 public class Location {
-
+    int index;
     String name;
     String region;
     ArrayList<Edge> connections;
-    double[] distances;
-
+    Route[] shortestPaths;
+    
     public Location(String name, String region) {
         this.name = name;
         this.region = region;
@@ -23,21 +23,30 @@ public class Location {
     public String getName() {
         return name;
     }
+    
+    public int getIndex() {
+        return index;
+    }
 
     public ArrayList<Edge> getConnections() {
         return connections;
     }
     
-    public void setDistances(double[] distances) {
-        this.distances = distances;   
+    public Route getShortestPath(Location dest) {
+        return shortestPaths[dest.index];
     }
+    
+    public void setIndex(int index) {
+        this.index = index;
+    }
+    
+    public void setShortestPaths(Route[] shortestPaths) {
+        this.shortestPaths = shortestPaths;
+    }
+    
     
     public void addConnection(Edge e) {
         connections.add(e);
-    }
-    
-    public double getShortestPath(int locationIndex) {
-        return distances[locationIndex];
     }
 
     public boolean equals(Object obj) {

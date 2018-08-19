@@ -96,7 +96,9 @@ public class MainMenu extends JFrame implements ActionListener{
                 dispose();
         }
         else if(e.getActionCommand ().equals ("Continue")){
-            man.setCurrentStation(man.getMaps().get(choices.getSelectedIndex() - 1).getPostOffice());
+            Map m = man.getMaps().get(choices.getSelectedIndex() - 1);
+            man.setCurrentMap(m);
+            man.setCurrentLocation(m.getPostOffice());
             PostOfficeMenu pm = new PostOfficeMenu(man);
             dispose();
         }

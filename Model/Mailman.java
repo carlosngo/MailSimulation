@@ -4,48 +4,63 @@ import java.util.*;
 import java.io.*;
 
 public class Mailman {
-
     String name;
-    private PostOffice currentStation;
+    private Map currentMap;
+    private Location currentLocation;
+
     private ArrayList<Map> maps;
-    private ArrayList<Mail> bag;
-    private ArrayList<Mail> sorted;
+    private ArrayList<Mail> allMail;
+    private ArrayList<Mail> regionMail;
 
     /**
      * NOTE: read csv files upon instantiation.
      */
+    
     public Mailman(String name) {
         this.name = name;
         maps = new ArrayList<>();
-        bag = new ArrayList<>();
-        sorted = new ArrayList<>();
+        allMail = new ArrayList<>();
+        regionMail = new ArrayList<>();
     }
 
     public String getName() {
         return name;
     }
 
-    public PostOffice getCurrentStation() {
-        return currentStation;
+    public Map getCurrentMap() {
+        return currentMap;
+    }
+    
+    public Location getCurrentLocation() {
+        return currentLocation;
     }
 
-    public Map getCurrentMap() {
-        for (Map m : maps) 
-            if (m.getRegion().equals(currentStation.getRegion()))
-                return m;
-        return null;
-    }
     
     public ArrayList<Map> getMaps() {
         return maps;
     }
 
-    public ArrayList<Mail> getBag() {
-        return bag;
+    public ArrayList<Mail> getAllMail() {
+        return allMail;
     }
 
-    public ArrayList<Mail> getSorted() {
-        return sorted;
+    public ArrayList<Mail> getRegionMail() {
+        return regionMail;
+    }
+    
+    public void setCurrentMap(Map m) {
+        currentMap = m;
+    }
+    
+    public void setCurrentMap(PostOffice po) {
+        for (Map m : maps) {
+            if (m.getPostOffice().equals(po))
+                currentMap = m;
+        }
+    }
+    
+    public void setCurrentLocation(Location l) {
+        currentLocation = l;
     }
     
     public int getNoOfLocations() {
@@ -53,9 +68,6 @@ public class Mailman {
         for (Map m : maps) 
             count += m.getLocations().size();
         return count;
-    }
-    public void setCurrentStation(PostOffice p) {
-        currentStation = p;
     }
 
     public void addMap(Map m) {
@@ -106,47 +118,70 @@ public class Mailman {
                 }
                 int index1 = map.getLocations().indexOf(location1);
                 if (index1 < 0) {
+                    location1.setIndex(map.getLocations().size());
                     map.getLocations().add(location1);
                 } else {
                     location1 = map.getLocations().get(index1);
                 }
                 int index2 = map.getLocations().indexOf(location2);
                 if (index2 < 0) {
+                    location2.setIndex(map.getLocations().size());
                     map.getLocations().add(location2);
                 } else {
                     location2 = map.getLocations().get(index2);
                 }
                 location1.addConnection(new Edge(location2, distance));
                 location2.addConnection(new Edge(location1, distance));
-                if (!found)
+                if (!found) 
                     addMap(map);
+            }
+            for (Map m : maps) {
+                m.calculateRoutes();
             }
             return true;
         } catch (FileNotFoundException e) {
             return false;
         }
     }
-
-    /**
-     * fetches the new batch of mails in the current region's post office. add
-     * each mail to bag.
-     */
-    public void fetchMail() {
-        for (Mail m : currentStation.pushMail()) {
-            bag.add(m);
+    
+    public void addMail(Mail m) {
+        allMail.add(m);
+        if (m.getOrigin().equals(currentMap.getPostOffice())) {
+            if (!regionMail.contains(m)) {
+                regionMail.add(m);
+                System.out.println(m.getRecipient());
+            }
         }
     }
-
     /**
      * puts all mail with destinations within the current region in the
      * ArrayList variable sorted, and then sorts it (any sort u prefer).
      */
-    public void sortMail() {
-        for (Mail m : bag) 
-            if (m.getOrigin().equals(currentStation)) 
-                if (!sorted.contains(m))
-                    sorted.add(m);
-        Collections.sort(sorted);
+    public ArrayList<Route> sortNPlan() {
+        ArrayList<Route> routes = new ArrayList<>();
+        ArrayList<Mail> newSorted = new ArrayList<>();
+        while (!regionMail.isEmpty()) {
+            Mail nextMail = null;
+            double minDistance = Double.MAX_VALUE;
+            for (Mail m : regionMail) {
+                Route r = currentLocation.getShortestPath(m.getDestination());
+                double distance = r.getDistance();
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    nextMail = m;
+                }
+            }
+            Route nextRoute = currentLocation.getShortestPath(nextMail.getDestination());
+            for (String name : nextRoute.getRoute())
+                System.out.println(name);
+            routes.add(nextRoute);
+            newSorted.add(nextMail);
+            currentLocation = nextMail.getDestination();
+            regionMail.remove(nextMail);
+        }
+        regionMail = newSorted;
+        currentLocation = currentMap.getPostOffice();
+        return routes;
     }
 
     /**
@@ -154,6 +189,8 @@ public class Mailman {
      * the required output.
      */   
     public void deliverMail() {
-        bag.remove(sorted.remove(0));
+        allMail.remove(regionMail.remove(0));
     }
+    
+
 }

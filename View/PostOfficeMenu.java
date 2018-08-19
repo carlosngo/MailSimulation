@@ -27,7 +27,7 @@ public class PostOfficeMenu extends JFrame implements ActionListener{
         p.setLayout(new BoxLayout(p,BoxLayout.Y_AXIS));
         
         //title
-        JLabel title = new JLabel(man.getCurrentStation().getName().toUpperCase());
+        JLabel title = new JLabel(man.getCurrentMap().getPostOffice().getName().toUpperCase());
         title.setFont(new Font("Abril Fatface", Font.BOLD, 30));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(title);
@@ -53,7 +53,7 @@ public class PostOfficeMenu extends JFrame implements ActionListener{
         deliver.setAlignmentX(Component.CENTER_ALIGNMENT);
         deliver.setFont(new Font("Abril Fatface", Font.PLAIN, 20));
         deliver.addActionListener (this);
-        if (man.getSorted().isEmpty())
+        if (man.getRegionMail().isEmpty())
             deliver.setEnabled(false);
         p.add(deliver);
         p.add(Box.createRigidArea(new Dimension(0,20))); // add space
@@ -76,7 +76,7 @@ public class PostOfficeMenu extends JFrame implements ActionListener{
             dispose();
         }
         else {
-            ml = new MailsList(this, man.getBag());
+            ml = new MailsList(this, man.getAllMail());
             setVisible(false);
         }
     }   

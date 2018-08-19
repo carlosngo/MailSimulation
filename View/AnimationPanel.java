@@ -30,43 +30,38 @@ public class AnimationPanel extends JPanel {
     private JLabel route;
     private ArrayList<JLabel> destinations = new ArrayList<>();
     
-    public AnimationPanel(Mailman man) {
+    public AnimationPanel(ArrayList<Route> routes) {
         
-        this.man = man;
         this.setBackground(Color.WHITE);
         imageX = 1;
         try {
-            image = ImageIO.read(new File("Truck.jpg"));
+            image = ImageIO.read(getClass().getResource("/Truck.jpg"));
         } catch (IOException e) {
-            
+            e.printStackTrace();
         }
         JPanel routePanel = new JPanel();
         routePanel.setLayout(new BoxLayout(routePanel, BoxLayout.X_AXIS));
         image = resize(image, 300, 300);
         StringBuilder sb = new StringBuilder();
-        String office = man.getCurrentStation().getName();
-        for (int i = 0; i < 25; i++) 
-            if (i < office.length())
-                sb.append(office.charAt(i));
-            else
-                sb.append(" ");
-        route = new JLabel(sb.toString());
-        route.setFont(new Font("Abril Fatface", Font.BOLD, 18));
-        routePanel.add(route);
-        routePanel.add(Box.createRigidArea(new Dimension(60, 0)));
-        for (Mail m : man.getSorted()) {
-            sb = new StringBuilder();
-            String location = m.getDestination().getName();
-            for (int i = 0; i < 25; i++) 
-                if (i < location.length())
-                    sb.append(location.charAt(i));
-                else
-                    sb.append(" ");
-            JLabel lbl = new JLabel(sb.toString());
-            lbl.setFont(new Font("Abril Fatface", Font.BOLD, 18));
-            routePanel.add(lbl);
-            destinations.add(lbl);
-            routePanel.add(Box.createRigidArea(new Dimension(60, 0)));
+        for (Route r : routes) {
+            for (String name : r.getRoute()) {
+                sb = new StringBuilder();
+                for (int i = 0; i < 25; i++) 
+                    if (i < name.length())
+                        sb.append(name.charAt(i));
+                    else
+                        sb.append(" ");
+                JLabel lbl = new JLabel(sb.toString());
+                lbl.setFont(new Font("Abril Fatface", Font.BOLD, 18));
+                if (destinations.isEmpty())
+                    routePanel.add(lbl);
+                else if (!(destinations.get(destinations.size() - 1).getText().equals(lbl.getText())))
+                    routePanel.add(lbl);
+                if (name.equals(r.getRoute().get(r.getRoute().size() - 1))) {
+                    destinations.add(lbl);
+                }
+                routePanel.add(Box.createRigidArea(new Dimension(60, 0)));
+            }
         }
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
@@ -113,4 +108,6 @@ public class AnimationPanel extends JPanel {
 
         return dimg;
     }
+    
+
 }

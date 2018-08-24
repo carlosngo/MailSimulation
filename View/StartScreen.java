@@ -17,7 +17,7 @@ public class StartScreen extends JFrame implements ActionListener {
     JButton loadMap, start;
     JLabel choice;
     Mailman man;
-    
+    OneWayForm owf;
     public StartScreen() {
         super("Mail Simulator");
         initStartScreen();
@@ -95,7 +95,15 @@ public class StartScreen extends JFrame implements ActionListener {
                 } catch (IOException ex) { }
             }
         } else {
-            m = new MainMenu(man);
+//            m = new MainMenu(man);
+            if (JOptionPane.showConfirmDialog(null, "Do you want to make one-way roads?", "One Way Roads", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+                owf = new OneWayForm(man);
+            else {
+                for (Map m : man.getMaps()) {
+                    m.calculateRoutes();
+                }
+                m = new MainMenu(man);
+            }
             dispose();
         }
     }

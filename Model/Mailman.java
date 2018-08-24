@@ -81,7 +81,7 @@ public class Mailman {
         maps = new ArrayList<>();
         try {
             String input;
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(csv),"ISO-8859-1"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(csv),"UTF-8"));
             br.readLine();
             while ((input = br.readLine()) != null) {
                 String region;
@@ -135,13 +135,34 @@ public class Mailman {
                 if (!found) 
                     addMap(map);
             }
-            for (Map m : maps) {
-                m.calculateRoutes();
-            }
             return true;
         } catch (FileNotFoundException e) {
             return false;
         }
+    }
+    
+    public boolean makeOneWay(Location src, Location dest) {
+        int edges = 0;
+        Edge toRemove = null;
+        for (Edge e : dest.getConnections()) {
+            if (e.getEnd().equals(src)) {
+                edges++;
+                toRemove = e;
+                break;
+            }
+        }    
+        
+        for (Edge e : src.getConnections()) {
+            if (e.getEnd().equals(dest)) {
+                edges++;
+                break;
+            }
+        }
+           
+        if (edges != 2)
+            return false;
+        dest.removeConnection(toRemove);
+        return true;
     }
     
     public void addMail(Mail m) {
@@ -149,7 +170,7 @@ public class Mailman {
         if (m.getOrigin().equals(currentMap.getPostOffice())) {
             if (!regionMail.contains(m)) {
                 regionMail.add(m);
-                System.out.println(m.getRecipient());
+//                System.out.println(m.getRecipient());
             }
         }
     }
@@ -172,8 +193,8 @@ public class Mailman {
                 }
             }
             Route nextRoute = currentLocation.getShortestPath(nextMail.getDestination());
-            for (String name : nextRoute.getRoute())
-                System.out.println(name);
+//            for (String name : nextRoute.getRoute())
+//                System.out.println(name);
             routes.add(nextRoute);
             newSorted.add(nextMail);
             currentLocation = nextMail.getDestination();

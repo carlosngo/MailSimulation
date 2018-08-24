@@ -14,6 +14,7 @@ public class Location {
         this.name = name;
         this.region = region;
         connections = new ArrayList<>();
+        shortestPaths = new Route[0];
     }
 
     public String getRegion() {
@@ -49,6 +50,10 @@ public class Location {
         connections.add(e);
     }
 
+    public void removeConnection(Edge e) {
+        connections.remove(e);
+    }
+    
     public boolean equals(Object obj) {
         Location l = (Location) obj;
         return name.equals(l.name) && region.equals(l.region);

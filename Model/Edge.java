@@ -4,7 +4,6 @@ public class Edge {
 
     private Location end;
     private double distance;
-    private boolean visited;
 
     public Edge(Location end, double distance){
     	this.end = end;
@@ -17,10 +16,6 @@ public class Edge {
 
     public double getDistance(){
     	return distance;
-    }
-    
-    public boolean isVisited() {
-        return visited;
     }
 }
 
